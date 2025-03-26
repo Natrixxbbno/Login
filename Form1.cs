@@ -2,9 +2,9 @@ using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
-using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace LoginApp;
 
@@ -14,7 +14,7 @@ public partial class Form1 : Form
     private TextBox passwordTextBox;
     private Color primaryColor = Color.FromArgb(64, 86, 161);
     private Color backgroundColor = Color.FromArgb(240, 242, 245);
-    private string connectionString = "Server=localhost;Database=LoginDB;Trusted_Connection=True;";
+    private readonly DatabaseManager _databaseManager;
 
     public Form1()
     {
@@ -22,6 +22,20 @@ public partial class Form1 : Form
         this.FormBorderStyle = FormBorderStyle.FixedDialog;
         this.MaximizeBox = false;
         this.BackColor = backgroundColor;
+        _databaseManager = new DatabaseManager();
+        InitializeDatabaseAsync();
+    }
+
+    private async void InitializeDatabaseAsync()
+    {
+        try
+        {
+            await _databaseManager.InitializeAsync();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка при инициализации базы данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
     }
 
     private void InitializeComponent()
@@ -116,56 +130,44 @@ public partial class Form1 : Form
         using (SHA256 sha256 = SHA256.Create())
         {
             byte[] hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(hashedBytes);
-        }
-    }
-
-    private bool ValidateUser(string username, string password)
-    {
-        try
-        {
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < hashedBytes.Length; i++)
             {
-                conn.Open();
-                string hashedPassword = HashPassword(password);
-                
-                string query = "SELECT COUNT(*) FROM Users WHERE Username = @Username AND Password = @Password";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@Password", hashedPassword);
-                    
-                    int count = (int)cmd.ExecuteScalar();
-                    return count > 0;
-                }
+                builder.Append(hashedBytes[i].ToString("x2"));
             }
-        }
-        catch (Exception ex)
-        {
-            MessageBox.Show($"Eroare la conectarea la baza de date: {ex.Message}", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            return false;
+            return builder.ToString();
         }
     }
 
-    private void LoginButton_Click(object sender, EventArgs e)
+    private async void LoginButton_Click(object sender, EventArgs e)
     {
         string username = usernameTextBox.Text;
         string password = passwordTextBox.Text;
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
-            MessageBox.Show("Vă rugăm să completați toate câmpurile!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Пожалуйста, заполните все поля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
-        if (ValidateUser(username, password))
+        try
         {
-            MessageBox.Show("Autentificare reușită!", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            // Aici puteți adăuga codul pentru deschiderea formularului principal
+            string hashedPassword = HashPassword(password);
+            bool isValid = await _databaseManager.ValidateUserAsync(username, hashedPassword);
+
+            if (isValid)
+            {
+                MessageBox.Show("Успешная авторизация!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Здесь можно добавить код для открытия главной формы
+            }
+            else
+            {
+                MessageBox.Show("Неверное имя пользователя или пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            MessageBox.Show("Nume de utilizator sau parolă incorectă!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Ошибка при подключении к базе данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 

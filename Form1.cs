@@ -122,6 +122,7 @@ public partial class Form1 : Form
         registerLink.Location = new System.Drawing.Point(50, 370);
         registerLink.Size = new System.Drawing.Size(300, 20);
         registerLink.TextAlign = ContentAlignment.MiddleCenter;
+        registerLink.Click += new EventHandler(RegisterLink_Click);
         this.Controls.Add(registerLink);
     }
 
@@ -168,6 +169,14 @@ public partial class Form1 : Form
         catch (Exception ex)
         {
             MessageBox.Show($"Ошибка при подключении к базе данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
+
+    private void RegisterLink_Click(object sender, EventArgs e)
+    {
+        using (var registerForm = new RegisterForm(_databaseManager))
+        {
+            registerForm.ShowDialog();
         }
     }
 

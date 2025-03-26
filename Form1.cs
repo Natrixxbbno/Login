@@ -48,7 +48,7 @@ public partial class Form1 : Form
     private void InitializeComponent()
     {
         // Form settings
-        this.Text = "Авторизация";
+        this.Text = "Autentificare";
         this.Size = new System.Drawing.Size(400, 600);
         this.StartPosition = FormStartPosition.CenterScreen;
 
@@ -72,7 +72,7 @@ public partial class Form1 : Form
     {
         // Title label
         Label titleLabel = new Label();
-        titleLabel.Text = "Добро пожаловать!";
+        titleLabel.Text = "Bine ați venit!";
         titleLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
         titleLabel.ForeColor = primaryColor;
         titleLabel.Location = new System.Drawing.Point(50, 40);
@@ -82,7 +82,7 @@ public partial class Form1 : Form
 
         // Subtitle
         Label subtitleLabel = new Label();
-        subtitleLabel.Text = "Пожалуйста, войдите в систему";
+        subtitleLabel.Text = "Vă rugăm să vă autentificați";
         subtitleLabel.Font = new Font("Segoe UI", 12);
         subtitleLabel.ForeColor = Color.Gray;
         subtitleLabel.Location = new System.Drawing.Point(50, 90);
@@ -92,7 +92,7 @@ public partial class Form1 : Form
 
         // Username label
         Label usernameLabel = new Label();
-        usernameLabel.Text = "Имя пользователя";
+        usernameLabel.Text = "Nume de utilizator";
         usernameLabel.Font = new Font("Segoe UI", 10);
         usernameLabel.ForeColor = Color.DimGray;
         usernameLabel.Location = new System.Drawing.Point(50, 150);
@@ -109,7 +109,7 @@ public partial class Form1 : Form
 
         // Password label
         Label passwordLabel = new Label();
-        passwordLabel.Text = "Пароль";
+        passwordLabel.Text = "Parolă";
         passwordLabel.Font = new Font("Segoe UI", 10);
         passwordLabel.ForeColor = Color.DimGray;
         passwordLabel.Location = new System.Drawing.Point(50, 220);
@@ -127,7 +127,7 @@ public partial class Form1 : Form
 
         // Login button
         Button loginButton = new Button();
-        loginButton.Text = "Войти";
+        loginButton.Text = "Autentificare";
         loginButton.Location = new System.Drawing.Point(50, 310);
         loginButton.Size = new System.Drawing.Size(300, 45);
         loginButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -141,7 +141,7 @@ public partial class Form1 : Form
 
         // Register link
         LinkLabel registerLink = new LinkLabel();
-        registerLink.Text = "Нет аккаунта? Зарегистрируйтесь";
+        registerLink.Text = "Nu aveți cont? Înregistrați-vă";
         registerLink.Font = new Font("Segoe UI", 10);
         registerLink.LinkColor = primaryColor;
         registerLink.Location = new System.Drawing.Point(50, 370);
@@ -155,7 +155,7 @@ public partial class Form1 : Form
     {
         // Title label
         Label titleLabel = new Label();
-        titleLabel.Text = "Регистрация";
+        titleLabel.Text = "Înregistrare";
         titleLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
         titleLabel.ForeColor = primaryColor;
         titleLabel.Location = new System.Drawing.Point(50, 40);
@@ -182,7 +182,7 @@ public partial class Form1 : Form
 
         // Username label
         Label usernameLabel = new Label();
-        usernameLabel.Text = "Имя пользователя";
+        usernameLabel.Text = "Nume de utilizator";
         usernameLabel.Font = new Font("Segoe UI", 10);
         usernameLabel.ForeColor = Color.DimGray;
         usernameLabel.Location = new System.Drawing.Point(50, 170);
@@ -199,7 +199,7 @@ public partial class Form1 : Form
 
         // Password label
         Label passwordLabel = new Label();
-        passwordLabel.Text = "Пароль";
+        passwordLabel.Text = "Parolă";
         passwordLabel.Font = new Font("Segoe UI", 10);
         passwordLabel.ForeColor = Color.DimGray;
         passwordLabel.Location = new System.Drawing.Point(50, 240);
@@ -217,7 +217,7 @@ public partial class Form1 : Form
 
         // Confirm Password label
         Label confirmPasswordLabel = new Label();
-        confirmPasswordLabel.Text = "Подтвердите пароль";
+        confirmPasswordLabel.Text = "Confirmați parola";
         confirmPasswordLabel.Font = new Font("Segoe UI", 10);
         confirmPasswordLabel.ForeColor = Color.DimGray;
         confirmPasswordLabel.Location = new System.Drawing.Point(50, 310);
@@ -235,7 +235,7 @@ public partial class Form1 : Form
 
         // Register button
         Button registerButton = new Button();
-        registerButton.Text = "Зарегистрироваться";
+        registerButton.Text = "Înregistrare";
         registerButton.Location = new System.Drawing.Point(50, 400);
         registerButton.Size = new System.Drawing.Size(300, 45);
         registerButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -249,7 +249,7 @@ public partial class Form1 : Form
 
         // Back to login link
         LinkLabel backToLoginLink = new LinkLabel();
-        backToLoginLink.Text = "Уже есть аккаунт? Войдите";
+        backToLoginLink.Text = "Aveți deja cont? Autentificați-vă";
         backToLoginLink.Font = new Font("Segoe UI", 10);
         backToLoginLink.LinkColor = primaryColor;
         backToLoginLink.Location = new System.Drawing.Point(50, 460);
@@ -280,7 +280,7 @@ public partial class Form1 : Form
 
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
         {
-            MessageBox.Show("Пожалуйста, заполните все поля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Vă rugăm să completați toate câmpurile!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
@@ -292,17 +292,17 @@ public partial class Form1 : Form
             if (isValid)
             {
                 currentUsername = username;
-                MessageBox.Show("Авторизация успешна!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Autentificare reușită!", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ShowMainForm();
             }
             else
             {
-                MessageBox.Show("Неверное имя пользователя или пароль!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Nume de utilizator sau parolă incorectă!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Ошибка при подключении к базе данных: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Eroare la conectarea la baza de date: {ex.Message}", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
@@ -318,6 +318,56 @@ public partial class Form1 : Form
         loginPanel.Visible = true;
     }
 
+    private bool ValidateEmail(string email)
+    {
+        if (string.IsNullOrEmpty(email))
+            return false;
+
+        try
+        {
+            var addr = new System.Net.Mail.MailAddress(email);
+            return addr.Address == email;
+        }
+        catch
+        {
+            return false;
+        }
+    }
+
+    private bool ValidateUsername(string username)
+    {
+        if (string.IsNullOrEmpty(username))
+            return false;
+
+        // Проверяем длину (от 3 до 20 символов)
+        if (username.Length < 3 || username.Length > 20)
+            return false;
+
+        // Проверяем допустимые символы (только буквы, цифры и подчеркивание)
+        return System.Text.RegularExpressions.Regex.IsMatch(username, "^[a-zA-Z0-9_]+$");
+    }
+
+    private bool ValidatePassword(string password)
+    {
+        if (string.IsNullOrEmpty(password))
+            return false;
+
+        // Минимальная длина 8 символов
+        if (password.Length < 8)
+            return false;
+
+        // Проверяем наличие хотя бы одной цифры
+        bool hasNumber = System.Text.RegularExpressions.Regex.IsMatch(password, "[0-9]+");
+        // Проверяем наличие хотя бы одной строчной буквы
+        bool hasLowerChar = System.Text.RegularExpressions.Regex.IsMatch(password, "[a-z]+");
+        // Проверяем наличие хотя бы одной заглавной буквы
+        bool hasUpperChar = System.Text.RegularExpressions.Regex.IsMatch(password, "[A-Z]+");
+        // Проверяем наличие хотя бы одного специального символа
+        bool hasSpecialChar = System.Text.RegularExpressions.Regex.IsMatch(password, "[!@#$%^&*(),.?\":{}|<>]+");
+
+        return hasNumber && hasLowerChar && hasUpperChar && hasSpecialChar;
+    }
+
     private async void RegisterButton_Click(object sender, EventArgs e)
     {
         string username = registerUsernameTextBox.Text;
@@ -328,13 +378,31 @@ public partial class Form1 : Form
         if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || 
             string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
         {
-            MessageBox.Show("Пожалуйста, заполните все поля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Vă rugăm să completați toate câmpurile!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        if (!ValidateEmail(email))
+        {
+            MessageBox.Show("Vă rugăm să introduceți o adresă de email validă!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        if (!ValidateUsername(username))
+        {
+            MessageBox.Show("Numele de utilizator trebuie să conțină între 3 și 20 de caractere și poate conține doar litere, cifre și underscore!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        if (!ValidatePassword(password))
+        {
+            MessageBox.Show("Parola trebuie să conțină minim 8 caractere, inclusiv litere mari și mici, cifre și caractere speciale!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
         if (password != confirmPassword)
         {
-            MessageBox.Show("Пароли не совпадают!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Parolele nu se potrivesc!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
@@ -345,7 +413,7 @@ public partial class Form1 : Form
 
             if (success)
             {
-                MessageBox.Show("Аккаунт успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Cont creat cu succes!", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Очищаем поля
                 registerUsernameTextBox.Clear();
                 registerPasswordTextBox.Clear();
@@ -357,12 +425,12 @@ public partial class Form1 : Form
             }
             else
             {
-                MessageBox.Show("Пользователь с таким именем уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Utilizatorul cu acest nume există deja!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Eroare la înregistrare: {ex.Message}", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
@@ -373,14 +441,14 @@ public partial class Form1 : Form
 
         // Создаем и показываем главную форму
         Form mainForm = new Form();
-        mainForm.Text = "Главная панель";
+        mainForm.Text = "Panou principal";
         mainForm.Size = new System.Drawing.Size(400, 300);
         mainForm.StartPosition = FormStartPosition.CenterScreen;
         mainForm.BackColor = backgroundColor;
 
         // Добавляем приветствие
         Label welcomeLabel = new Label();
-        welcomeLabel.Text = $"Добро пожаловать, {currentUsername}!";
+        welcomeLabel.Text = $"Bine ați venit, {currentUsername}!";
         welcomeLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
         welcomeLabel.ForeColor = primaryColor;
         welcomeLabel.Location = new System.Drawing.Point(50, 40);
@@ -390,7 +458,7 @@ public partial class Form1 : Form
 
         // Добавляем кнопку удаления аккаунта
         Button deleteAccountButton = new Button();
-        deleteAccountButton.Text = "Удалить аккаунт";
+        deleteAccountButton.Text = "Șterge contul";
         deleteAccountButton.Location = new System.Drawing.Point(50, 100);
         deleteAccountButton.Size = new System.Drawing.Size(300, 45);
         deleteAccountButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -404,7 +472,7 @@ public partial class Form1 : Form
 
         // Добавляем кнопку выхода
         Button logoutButton = new Button();
-        logoutButton.Text = "Выйти";
+        logoutButton.Text = "Deconectare";
         logoutButton.Location = new System.Drawing.Point(50, 160);
         logoutButton.Size = new System.Drawing.Size(300, 45);
         logoutButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -431,8 +499,8 @@ public partial class Form1 : Form
     private async void DeleteAccountButton_Click(object sender, EventArgs e)
     {
         var result = MessageBox.Show(
-            "Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить!",
-            "Подтверждение удаления",
+            "Sunteți sigur că doriți să vă ștergeți contul? Această acțiune nu poate fi anulată!",
+            "Confirmare ștergere",
             MessageBoxButtons.YesNo,
             MessageBoxIcon.Warning);
 
@@ -443,7 +511,7 @@ public partial class Form1 : Form
                 bool success = await _databaseManager.DeleteUserAsync(currentUsername);
                 if (success)
                 {
-                    MessageBox.Show("Аккаунт успешно удален!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Cont șters cu succes!", "Succes", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     currentUsername = null;
                     usernameTextBox.Clear();
                     passwordTextBox.Clear();
@@ -452,12 +520,12 @@ public partial class Form1 : Form
                 }
                 else
                 {
-                    MessageBox.Show("Ошибка при удалении аккаунта!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Eroare la ștergerea contului!", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Ошибка при удалении аккаунта: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Eroare la ștergerea contului: {ex.Message}", "Eroare", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

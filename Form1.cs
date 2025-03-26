@@ -15,6 +15,7 @@ public partial class Form1 : Form
     private Color primaryColor = Color.FromArgb(64, 86, 161);
     private Color backgroundColor = Color.FromArgb(240, 242, 245);
     private readonly DatabaseManager _databaseManager;
+    private string currentUsername;
 
     public Form1()
     {
@@ -158,8 +159,9 @@ public partial class Form1 : Form
 
             if (isValid)
             {
-                MessageBox.Show("Успешная авторизация!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                // Здесь можно добавить код для открытия главной формы
+                currentUsername = username;
+                MessageBox.Show("Авторизация успешна!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ShowMainForm();
             }
             else
             {
@@ -178,6 +180,110 @@ public partial class Form1 : Form
         {
             registerForm.ShowDialog();
         }
+    }
+
+    private void ShowMainForm()
+    {
+        // Скрываем форму авторизации
+        this.Hide();
+
+        // Создаем и показываем главную форму
+        Form mainForm = new Form();
+        mainForm.Text = "Главная панель";
+        mainForm.Size = new System.Drawing.Size(400, 300);
+        mainForm.StartPosition = FormStartPosition.CenterScreen;
+        mainForm.BackColor = backgroundColor;
+
+        // Добавляем приветствие
+        Label welcomeLabel = new Label();
+        welcomeLabel.Text = $"Добро пожаловать, {currentUsername}!";
+        welcomeLabel.Font = new Font("Segoe UI", 16, FontStyle.Bold);
+        welcomeLabel.ForeColor = primaryColor;
+        welcomeLabel.Location = new System.Drawing.Point(50, 40);
+        welcomeLabel.Size = new System.Drawing.Size(300, 30);
+        welcomeLabel.TextAlign = ContentAlignment.MiddleCenter;
+        mainForm.Controls.Add(welcomeLabel);
+
+        // Добавляем кнопку удаления аккаунта
+        Button deleteAccountButton = new Button();
+        deleteAccountButton.Text = "Удалить аккаунт";
+        deleteAccountButton.Location = new System.Drawing.Point(50, 100);
+        deleteAccountButton.Size = new System.Drawing.Size(300, 45);
+        deleteAccountButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+        deleteAccountButton.ForeColor = Color.White;
+        deleteAccountButton.BackColor = Color.FromArgb(220, 53, 69); // Красный для удаления
+        deleteAccountButton.FlatStyle = FlatStyle.Flat;
+        deleteAccountButton.FlatAppearance.BorderSize = 0;
+        deleteAccountButton.Cursor = Cursors.Hand;
+        deleteAccountButton.Click += new EventHandler(DeleteAccountButton_Click);
+        mainForm.Controls.Add(deleteAccountButton);
+
+        // Добавляем кнопку выхода
+        Button logoutButton = new Button();
+        logoutButton.Text = "Выйти";
+        logoutButton.Location = new System.Drawing.Point(50, 160);
+        logoutButton.Size = new System.Drawing.Size(300, 45);
+        logoutButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+        logoutButton.ForeColor = Color.White;
+        logoutButton.BackColor = primaryColor;
+        logoutButton.FlatStyle = FlatStyle.Flat;
+        logoutButton.FlatAppearance.BorderSize = 0;
+        logoutButton.Cursor = Cursors.Hand;
+        logoutButton.Click += new EventHandler(LogoutButton_Click);
+        mainForm.Controls.Add(logoutButton);
+
+        // При закрытии формы показываем форму авторизации
+        mainForm.FormClosed += (s, args) => 
+        {
+            if (currentUsername != null) // Если пользователь не удален и не вышел
+            {
+                this.Show();
+            }
+        };
+        
+        mainForm.Show();
+    }
+
+    private async void DeleteAccountButton_Click(object sender, EventArgs e)
+    {
+        var result = MessageBox.Show(
+            "Вы уверены, что хотите удалить свой аккаунт? Это действие нельзя отменить!",
+            "Подтверждение удаления",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning);
+
+        if (result == DialogResult.Yes)
+        {
+            try
+            {
+                bool success = await _databaseManager.DeleteUserAsync(currentUsername);
+                if (success)
+                {
+                    MessageBox.Show("Аккаунт успешно удален!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    currentUsername = null;
+                    usernameTextBox.Clear();
+                    passwordTextBox.Clear();
+                    this.Show();
+                    ((Button)sender).FindForm().Close();
+                }
+                else
+                {
+                    MessageBox.Show("Ошибка при удалении аккаунта!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при удалении аккаунта: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+    }
+
+    private void LogoutButton_Click(object sender, EventArgs e)
+    {
+        currentUsername = null;
+        this.Show();
+        usernameTextBox.Clear();
+        passwordTextBox.Clear();
     }
 
     protected override void OnPaint(PaintEventArgs e)

@@ -39,6 +39,30 @@ namespace LoginApp
             }
         }
 
+        public async Task<bool> DeleteUserAsync(string username)
+        {
+            using (var connection = new NpgsqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new NpgsqlCommand())
+                {
+                    command.Connection = connection;
+                    command.CommandText = "DELETE FROM users WHERE username = @username";
+                    command.Parameters.AddWithValue("username", username);
+
+                    try
+                    {
+                        int rowsAffected = await command.ExecuteNonQueryAsync();
+                        return rowsAffected > 0;
+                    }
+                    catch (PostgresException)
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+
         public async Task<bool> RegisterUserAsync(string username, string password, string email)
         {
             using (var connection = new NpgsqlConnection(_connectionString))

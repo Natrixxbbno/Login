@@ -12,6 +12,12 @@ public partial class Form1 : Form
 {
     private TextBox usernameTextBox;
     private TextBox passwordTextBox;
+    private TextBox registerUsernameTextBox;
+    private TextBox registerPasswordTextBox;
+    private TextBox registerConfirmPasswordTextBox;
+    private TextBox registerEmailTextBox;
+    private Panel loginPanel;
+    private Panel registerPanel;
     private Color primaryColor = Color.FromArgb(64, 86, 161);
     private Color backgroundColor = Color.FromArgb(240, 242, 245);
     private readonly DatabaseManager _databaseManager;
@@ -42,38 +48,56 @@ public partial class Form1 : Form
     private void InitializeComponent()
     {
         // Form settings
-        this.Text = "Autentificare";
-        this.Size = new System.Drawing.Size(400, 500);
+        this.Text = "Авторизация";
+        this.Size = new System.Drawing.Size(400, 600);
         this.StartPosition = FormStartPosition.CenterScreen;
 
+        // Создаем панели для форм авторизации и регистрации
+        loginPanel = new Panel();
+        loginPanel.Size = new System.Drawing.Size(400, 600);
+        loginPanel.Location = new System.Drawing.Point(0, 0);
+        this.Controls.Add(loginPanel);
+
+        registerPanel = new Panel();
+        registerPanel.Size = new System.Drawing.Size(400, 600);
+        registerPanel.Location = new System.Drawing.Point(0, 0);
+        registerPanel.Visible = false;
+        this.Controls.Add(registerPanel);
+
+        InitializeLoginPanel();
+        InitializeRegisterPanel();
+    }
+
+    private void InitializeLoginPanel()
+    {
         // Title label
         Label titleLabel = new Label();
-        titleLabel.Text = "Bine ați venit!";
+        titleLabel.Text = "Добро пожаловать!";
         titleLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
         titleLabel.ForeColor = primaryColor;
         titleLabel.Location = new System.Drawing.Point(50, 40);
         titleLabel.Size = new System.Drawing.Size(300, 45);
         titleLabel.TextAlign = ContentAlignment.MiddleCenter;
-        this.Controls.Add(titleLabel);
+        loginPanel.Controls.Add(titleLabel);
 
         // Subtitle
         Label subtitleLabel = new Label();
-        subtitleLabel.Text = "Vă rugăm să vă autentificați";
+        subtitleLabel.Text = "Пожалуйста, войдите в систему";
         subtitleLabel.Font = new Font("Segoe UI", 12);
         subtitleLabel.ForeColor = Color.Gray;
         subtitleLabel.Location = new System.Drawing.Point(50, 90);
         subtitleLabel.Size = new System.Drawing.Size(300, 25);
         subtitleLabel.TextAlign = ContentAlignment.MiddleCenter;
-        this.Controls.Add(subtitleLabel);
+        loginPanel.Controls.Add(subtitleLabel);
 
         // Username label
         Label usernameLabel = new Label();
-        usernameLabel.Text = "Nume utilizator";
+        usernameLabel.Text = "Имя пользователя";
         usernameLabel.Font = new Font("Segoe UI", 10);
         usernameLabel.ForeColor = Color.DimGray;
         usernameLabel.Location = new System.Drawing.Point(50, 150);
         usernameLabel.Size = new System.Drawing.Size(300, 20);
-        this.Controls.Add(usernameLabel);
+        loginPanel.Controls.Add(usernameLabel);
 
         // Username textbox
         usernameTextBox = new TextBox();
@@ -81,16 +105,16 @@ public partial class Form1 : Form
         usernameTextBox.Size = new System.Drawing.Size(300, 25);
         usernameTextBox.Font = new Font("Segoe UI", 12);
         usernameTextBox.BorderStyle = BorderStyle.FixedSingle;
-        this.Controls.Add(usernameTextBox);
+        loginPanel.Controls.Add(usernameTextBox);
 
         // Password label
         Label passwordLabel = new Label();
-        passwordLabel.Text = "Parolă";
+        passwordLabel.Text = "Пароль";
         passwordLabel.Font = new Font("Segoe UI", 10);
         passwordLabel.ForeColor = Color.DimGray;
         passwordLabel.Location = new System.Drawing.Point(50, 220);
         passwordLabel.Size = new System.Drawing.Size(300, 20);
-        this.Controls.Add(passwordLabel);
+        loginPanel.Controls.Add(passwordLabel);
 
         // Password textbox
         passwordTextBox = new TextBox();
@@ -99,11 +123,11 @@ public partial class Form1 : Form
         passwordTextBox.Font = new Font("Segoe UI", 12);
         passwordTextBox.BorderStyle = BorderStyle.FixedSingle;
         passwordTextBox.PasswordChar = '●';
-        this.Controls.Add(passwordTextBox);
+        loginPanel.Controls.Add(passwordTextBox);
 
         // Login button
         Button loginButton = new Button();
-        loginButton.Text = "Conectare";
+        loginButton.Text = "Войти";
         loginButton.Location = new System.Drawing.Point(50, 310);
         loginButton.Size = new System.Drawing.Size(300, 45);
         loginButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
@@ -113,18 +137,126 @@ public partial class Form1 : Form
         loginButton.FlatAppearance.BorderSize = 0;
         loginButton.Cursor = Cursors.Hand;
         loginButton.Click += new EventHandler(LoginButton_Click);
-        this.Controls.Add(loginButton);
+        loginPanel.Controls.Add(loginButton);
 
         // Register link
         LinkLabel registerLink = new LinkLabel();
-        registerLink.Text = "Nu aveți cont? Înregistrați-vă";
+        registerLink.Text = "Нет аккаунта? Зарегистрируйтесь";
         registerLink.Font = new Font("Segoe UI", 10);
         registerLink.LinkColor = primaryColor;
         registerLink.Location = new System.Drawing.Point(50, 370);
         registerLink.Size = new System.Drawing.Size(300, 20);
         registerLink.TextAlign = ContentAlignment.MiddleCenter;
         registerLink.Click += new EventHandler(RegisterLink_Click);
-        this.Controls.Add(registerLink);
+        loginPanel.Controls.Add(registerLink);
+    }
+
+    private void InitializeRegisterPanel()
+    {
+        // Title label
+        Label titleLabel = new Label();
+        titleLabel.Text = "Регистрация";
+        titleLabel.Font = new Font("Segoe UI", 24, FontStyle.Bold);
+        titleLabel.ForeColor = primaryColor;
+        titleLabel.Location = new System.Drawing.Point(50, 40);
+        titleLabel.Size = new System.Drawing.Size(300, 45);
+        titleLabel.TextAlign = ContentAlignment.MiddleCenter;
+        registerPanel.Controls.Add(titleLabel);
+
+        // Email label
+        Label emailLabel = new Label();
+        emailLabel.Text = "Email";
+        emailLabel.Font = new Font("Segoe UI", 10);
+        emailLabel.ForeColor = Color.DimGray;
+        emailLabel.Location = new System.Drawing.Point(50, 100);
+        emailLabel.Size = new System.Drawing.Size(300, 20);
+        registerPanel.Controls.Add(emailLabel);
+
+        // Email textbox
+        registerEmailTextBox = new TextBox();
+        registerEmailTextBox.Location = new System.Drawing.Point(50, 125);
+        registerEmailTextBox.Size = new System.Drawing.Size(300, 25);
+        registerEmailTextBox.Font = new Font("Segoe UI", 12);
+        registerEmailTextBox.BorderStyle = BorderStyle.FixedSingle;
+        registerPanel.Controls.Add(registerEmailTextBox);
+
+        // Username label
+        Label usernameLabel = new Label();
+        usernameLabel.Text = "Имя пользователя";
+        usernameLabel.Font = new Font("Segoe UI", 10);
+        usernameLabel.ForeColor = Color.DimGray;
+        usernameLabel.Location = new System.Drawing.Point(50, 170);
+        usernameLabel.Size = new System.Drawing.Size(300, 20);
+        registerPanel.Controls.Add(usernameLabel);
+
+        // Username textbox
+        registerUsernameTextBox = new TextBox();
+        registerUsernameTextBox.Location = new System.Drawing.Point(50, 195);
+        registerUsernameTextBox.Size = new System.Drawing.Size(300, 25);
+        registerUsernameTextBox.Font = new Font("Segoe UI", 12);
+        registerUsernameTextBox.BorderStyle = BorderStyle.FixedSingle;
+        registerPanel.Controls.Add(registerUsernameTextBox);
+
+        // Password label
+        Label passwordLabel = new Label();
+        passwordLabel.Text = "Пароль";
+        passwordLabel.Font = new Font("Segoe UI", 10);
+        passwordLabel.ForeColor = Color.DimGray;
+        passwordLabel.Location = new System.Drawing.Point(50, 240);
+        passwordLabel.Size = new System.Drawing.Size(300, 20);
+        registerPanel.Controls.Add(passwordLabel);
+
+        // Password textbox
+        registerPasswordTextBox = new TextBox();
+        registerPasswordTextBox.Location = new System.Drawing.Point(50, 265);
+        registerPasswordTextBox.Size = new System.Drawing.Size(300, 25);
+        registerPasswordTextBox.Font = new Font("Segoe UI", 12);
+        registerPasswordTextBox.BorderStyle = BorderStyle.FixedSingle;
+        registerPasswordTextBox.PasswordChar = '●';
+        registerPanel.Controls.Add(registerPasswordTextBox);
+
+        // Confirm Password label
+        Label confirmPasswordLabel = new Label();
+        confirmPasswordLabel.Text = "Подтвердите пароль";
+        confirmPasswordLabel.Font = new Font("Segoe UI", 10);
+        confirmPasswordLabel.ForeColor = Color.DimGray;
+        confirmPasswordLabel.Location = new System.Drawing.Point(50, 310);
+        confirmPasswordLabel.Size = new System.Drawing.Size(300, 20);
+        registerPanel.Controls.Add(confirmPasswordLabel);
+
+        // Confirm Password textbox
+        registerConfirmPasswordTextBox = new TextBox();
+        registerConfirmPasswordTextBox.Location = new System.Drawing.Point(50, 335);
+        registerConfirmPasswordTextBox.Size = new System.Drawing.Size(300, 25);
+        registerConfirmPasswordTextBox.Font = new Font("Segoe UI", 12);
+        registerConfirmPasswordTextBox.BorderStyle = BorderStyle.FixedSingle;
+        registerConfirmPasswordTextBox.PasswordChar = '●';
+        registerPanel.Controls.Add(registerConfirmPasswordTextBox);
+
+        // Register button
+        Button registerButton = new Button();
+        registerButton.Text = "Зарегистрироваться";
+        registerButton.Location = new System.Drawing.Point(50, 400);
+        registerButton.Size = new System.Drawing.Size(300, 45);
+        registerButton.Font = new Font("Segoe UI", 12, FontStyle.Bold);
+        registerButton.ForeColor = Color.White;
+        registerButton.BackColor = primaryColor;
+        registerButton.FlatStyle = FlatStyle.Flat;
+        registerButton.FlatAppearance.BorderSize = 0;
+        registerButton.Cursor = Cursors.Hand;
+        registerButton.Click += new EventHandler(RegisterButton_Click);
+        registerPanel.Controls.Add(registerButton);
+
+        // Back to login link
+        LinkLabel backToLoginLink = new LinkLabel();
+        backToLoginLink.Text = "Уже есть аккаунт? Войдите";
+        backToLoginLink.Font = new Font("Segoe UI", 10);
+        backToLoginLink.LinkColor = primaryColor;
+        backToLoginLink.Location = new System.Drawing.Point(50, 460);
+        backToLoginLink.Size = new System.Drawing.Size(300, 20);
+        backToLoginLink.TextAlign = ContentAlignment.MiddleCenter;
+        backToLoginLink.Click += new EventHandler(BackToLoginLink_Click);
+        registerPanel.Controls.Add(backToLoginLink);
     }
 
     private string HashPassword(string password)
@@ -176,9 +308,61 @@ public partial class Form1 : Form
 
     private void RegisterLink_Click(object sender, EventArgs e)
     {
-        using (var registerForm = new RegisterForm(_databaseManager))
+        loginPanel.Visible = false;
+        registerPanel.Visible = true;
+    }
+
+    private void BackToLoginLink_Click(object sender, EventArgs e)
+    {
+        registerPanel.Visible = false;
+        loginPanel.Visible = true;
+    }
+
+    private async void RegisterButton_Click(object sender, EventArgs e)
+    {
+        string username = registerUsernameTextBox.Text;
+        string password = registerPasswordTextBox.Text;
+        string confirmPassword = registerConfirmPasswordTextBox.Text;
+        string email = registerEmailTextBox.Text;
+
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password) || 
+            string.IsNullOrEmpty(confirmPassword) || string.IsNullOrEmpty(email))
         {
-            registerForm.ShowDialog();
+            MessageBox.Show("Пожалуйста, заполните все поля!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        if (password != confirmPassword)
+        {
+            MessageBox.Show("Пароли не совпадают!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
+        try
+        {
+            string hashedPassword = HashPassword(password);
+            bool success = await _databaseManager.RegisterUserAsync(username, hashedPassword, email);
+
+            if (success)
+            {
+                MessageBox.Show("Аккаунт успешно создан!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                // Очищаем поля
+                registerUsernameTextBox.Clear();
+                registerPasswordTextBox.Clear();
+                registerConfirmPasswordTextBox.Clear();
+                registerEmailTextBox.Clear();
+                // Возвращаемся на форму входа
+                registerPanel.Visible = false;
+                loginPanel.Visible = true;
+            }
+            else
+            {
+                MessageBox.Show("Пользователь с таким именем уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Ошибка при регистрации: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
@@ -281,9 +465,10 @@ public partial class Form1 : Form
     private void LogoutButton_Click(object sender, EventArgs e)
     {
         currentUsername = null;
-        this.Show();
         usernameTextBox.Clear();
         passwordTextBox.Clear();
+        this.Show();
+        ((Button)sender).FindForm().Close();
     }
 
     protected override void OnPaint(PaintEventArgs e)
